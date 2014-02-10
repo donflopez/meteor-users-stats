@@ -16,7 +16,7 @@ Package.on_use(function (api, where) {
     'templating'
   ], 'client');
 
-  api.use(['iron-router', 'easy-d3'], 'client');
+  api.use(['iron-router', 'easy-d3', 'session-amplify'], 'client');
 });
 
 Package.on_test(function (api) {
