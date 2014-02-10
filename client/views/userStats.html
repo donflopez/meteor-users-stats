@@ -1,0 +1,108 @@
+<template name="userStats">
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Views</span>
+        <h1>{{totalVisits}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Visitors</span>
+        <h1>{{totalUniqVisitors}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Today Views</span>
+        <h1>{{todayVisits}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Today Visitors</span>
+        <h1>{{todayUniqVisitors}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>User Views</span>
+        <h1>{{totalUsersVisit}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Anonymous Views</span>
+        <h1>{{totalAUsersVisit}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb">
+        <span>Routes</span>
+        <h1>{{differentRoutesVisit}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-4 l-3">
+    <div class="padding">
+      <div class="box lb graph">
+        <span>User Types</span>
+        {{#constant}}
+          {{#d3bar name='typeUsers' data=gTypesUser}}{{/d3bar}}
+        {{/constant}}
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-6 l-6">
+    <div class="padding">
+      <div class="box lb graph">
+        <span>Total View Per Hour</span>
+        {{#constant}}
+          {{#d3bar name='tph' data=gPerHour}}{{/d3bar}}
+        {{/constant}}
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-6 l-6">
+    <div class="padding">
+      <div class="box lb graph">
+        <span>Total Views Per Day</span>
+        {{#constant}}
+          {{#d3bar name='tpd' data=gPerDay}}{{/d3bar}}
+        {{/constant}}
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-6 l-6">
+    <div class="padding">
+      <div class="box lb graph">
+        <span>Today Views Per Hour</span>
+        {{#constant}}
+          {{#d3bar name='todayph' data=gtPerHour}}{{/d3bar}}
+        {{/constant}}
+      </div>
+    </div>
+  </div>
+  <div class="x-12 s-6 m-6 l-6">
+    <div class="padding">
+      <div class="box lb graph">
+        <span>Visitors Per Day</span>
+        {{#constant}}
+          {{#d3bar name='mUniqVisitors' data=gmUniqueVisitors}}{{/d3bar}}
+        {{/constant}}
+      </div>
+    </div>
+  </div>
+</template>

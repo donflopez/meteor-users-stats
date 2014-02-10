@@ -1,0 +1,25 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "users-stats": {
+        "path": "."
+      }
+    },
+    "packages": {
+      "users-stats": {
+        "path": "."
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.6.2",
+        "commit": "ce56e58b45624dce992490f3a1c10f10d3948bae"
+      },
+      "easy-d3": {
+        "git": "https://github.com/donflopez/meteor-easy-d3.git",
+        "tag": "v0.1.2",
+        "commit": "07656b88a70ba00a2c79cd6bb240c5353d2007ac"
+      }
+    }
+  }
+}

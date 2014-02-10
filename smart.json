@@ -1,0 +1,12 @@
+{
+  "name": "users-stats",
+  "description": "Built in user stats at /users-stats route using iron-router.",
+  "homepage": "https://github.com/donflopez/meteor-user-stats",
+  "author": "Francisco López<donflopez@gmail.com> (http://about.me/donflopez)",
+  "version": "0.1.0",
+  "git": "https://github.com/donflopez/meteor-user-stats.git",
+  "packages": {
+    "iron-router": {},
+    "easy-d3": {}
+  }
+}
