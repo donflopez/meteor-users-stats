@@ -6,7 +6,7 @@ Built in user stats at /users-stats route using iron-router.
 
 ### Installation
 
-    mrt add user-stats
+    mrt add users-stats
     
 ### Properties
 
