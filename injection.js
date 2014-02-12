@@ -7,10 +7,10 @@ UserStats = {
       }
       else
         var anony = SessionAmplify.get('anonymous');
-      Meteor.call('saveVisit', path, params, anony);
+      Meteor.call('saveVisit', path, params, anony, Session.get('users-stats'));
     }
     else
-      Meteor.call('saveVisit', path, params, Meteor.user()._id);
+      Meteor.call('saveVisit', path, params, Meteor.user()._id, Session.get('users-stats'));
   }
 };
 

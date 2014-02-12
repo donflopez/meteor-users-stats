@@ -1,33 +1,53 @@
 Template.userStats.helpers({
   'totalVisits':function(){
-    return Stats.find({}, {fields:{date:1}}).fetch().length;
-  },
-
-  'totalSecVisits':function(){
-    return Stats.find({cid:Session.get('cid'), sid:Session.get('sid')}).fetch().length;
+    if(SessionAmplify.get('us-condition'))
+      return Stats.find(SessionAmplify.get('us-condition'), {fields:{date:1}}).fetch().length;
+    else
+      return Stats.find({}, {fields:{date:1}}).fetch().length;
   },
 
   'totalUsersVisit':function(){
-    return _.filter(Stats.find({}).fetch(), function(data){
-      if(data.uid)
-        return data;
-    }).length;
+    if(SessionAmplify.get('us-condition'))
+      return _.filter(Stats.find(SessionAmplify.get('us-condition')).fetch(), function(data){
+        if(data.uid)
+          return data;
+      }).length;
+    else
+      return _.filter(Stats.find({}).fetch(), function(data){
+        if(data.uid)
+          return data;
+      }).length;
   },
 
   'totalAUsersVisit':function(){
-    return _.filter(Stats.find({}).fetch(), function(data){
-      if(data.aid)
-        return data;
-    }).length;
+    if(SessionAmplify.get('us-condition'))
+      return _.filter(Stats.find(SessionAmplify.get('us-condition')).fetch(), function(data){
+        if(data.aid)
+          return data;
+      }).length;
+    else
+      return _.filter(Stats.find({}).fetch(), function(data){
+        if(data.aid)
+          return data;
+      }).length;
   },
 
   'differentRoutesVisit':function(){
-    return _.size(_.countBy(Stats.find({}).fetch(), 'path'));
+    if(SessionAmplify.get('us-condition'))
+      return _.size(_.countBy(Stats.find(SessionAmplify.get('us-condition')).fetch(), 'path'));
+    else
+      return _.size(_.countBy(Stats.find({}).fetch(), 'path'));
   },
 
   'todayVisits':function(){
     var tdy = new Date();
-    return Stats.find({date: {$gt:new Date(
+    var us_condition = SessionAmplify.get('us-condition');
+    if(us_condition){
+      us_condition.date = {$gt:new Date(tdy.getFullYear(), tdy.getMonth(), tdy.getDate(), 0, 0, 0, 0)};
+      return Stats.find(us_condition, {fields:{date:1}}).fetch().length;
+    }
+    else
+      return Stats.find({date: {$gt:new Date(
       tdy.getFullYear(), tdy.getMonth(), tdy.getDate(), 0, 0, 0, 0
       )}}, {fields:{date:1}}).fetch().length;
   },
@@ -35,7 +55,15 @@ Template.userStats.helpers({
   //Unique visitors
 
   'totalUniqVisitors':function(){
-    return _.size(_.countBy(Stats.find({}, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
+    if(SessionAmplify.get('us-condition'))
+      return _.size(_.countBy(Stats.find(SessionAmplify.get('us-condition'), {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
+        if(data.uid)
+          return data.uid;
+        else
+          return data.aid;
+      }));
+    else
+      return _.size(_.countBy(Stats.find({}, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
         if(data.uid)
           return data.uid;
         else
@@ -45,7 +73,18 @@ Template.userStats.helpers({
 
   'todayUniqVisitors':function(){
     var tdy = new Date();
-    return _.size(_.countBy(Stats.find({date: {$gt:new Date(
+    var us_condition = SessionAmplify.get('us-condition');
+    if(us_condition){
+      us_condition.date = {$gt:new Date(tdy.getFullYear(), tdy.getMonth(), tdy.getDate(), 0, 0, 0, 0)};
+      return _.size(_.countBy(Stats.find(us_condition, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
+          if(data.uid)
+            return data.uid;
+          else
+            return data.aid;
+        }));
+    }
+    else
+      return _.size(_.countBy(Stats.find({date: {$gt:new Date(
       tdy.getFullYear(), tdy.getMonth(), tdy.getDate(), 0, 0, 0, 0
       )}}, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
         if(data.uid)
@@ -60,56 +99,105 @@ Template.userStats.helpers({
   // 
 
   'gPerHour':function(){
-    return _.map(_.groupBy(Stats.find({}, {fields:{date:1}}).fetch(), function(data){
-      return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
-    }), function(data, key){
-      return {key:key, size:data.length};
-    });
+    if(SessionAmplify.get('us-condition'))
+      return _.map(_.groupBy(Stats.find(SessionAmplify.get('us-condition'), {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
+    else
+      return _.map(_.groupBy(Stats.find({}, {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
   },
 
   'gPerDay':function(){
-    return _.map(_.groupBy(Stats.find({}, {fields:{date:1}}).fetch(), function(data){
-      return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
-    }), function(data, key){
-      return {key:key, size:data.length};
-    });
+    if(SessionAmplify.get('us-condition'))
+      return _.map(_.groupBy(Stats.find(SessionAmplify.get('us-condition'), {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
+    else
+      return _.map(_.groupBy(Stats.find({}, {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
   },
 
   gtPerHour:function(){
     var dt = new Date();
     var today = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 0, 0, 0, 0);
-    return _.map(_.groupBy(Stats.find({date: {$gt: today}}, {fields:{date:1}}).fetch(), function(data){
-      return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
-    }), function(data, key){
-      return {key:key, size:data.length};
-    });
+    var us_condition = SessionAmplify.get('us-condition');
+    if(us_condition){
+      us_condition.date = {$gt: today};
+      return _.map(_.groupBy(Stats.find(us_condition, {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
+    }
+    else
+      return _.map(_.groupBy(Stats.find({date: {$gt: today}}, {fields:{date:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), data.date.getHours(), 0, 0, 0).getHours();
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
   },
 
   gTypesUser:function(){
-    return _.map(_.groupBy(Stats.find({}, {fields:{uid:1, aid:1}}).fetch(), function(data){
-      if(data.uid)
-        return 'User';
-      else
-        return 'Anonymous';
-    }), function(data, key){
-      return {key:key, size:data.length};
-    });
+    if(SessionAmplify.get('us-condition'))
+      return _.map(_.groupBy(Stats.find(SessionAmplify.get('us-condition'), {fields:{uid:1, aid:1}}).fetch(), function(data){
+        if(data.uid)
+          return 'User';
+        else
+          return 'Anonymous';
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
+    else
+      return _.map(_.groupBy(Stats.find({}, {fields:{uid:1, aid:1}}).fetch(), function(data){
+        if(data.uid)
+          return 'User';
+        else
+          return 'Anonymous';
+      }), function(data, key){
+        return {key:key, size:data.length};
+      });
   },
 
   gmUniqueVisitors:function(){
     var tdy = new Date();
-    return _.map(_.groupBy(Stats.find({date: {$gt:new Date(
-      tdy.getFullYear(), tdy.getMonth(), 0, 0, 0, 0, 0
-      )}}, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
-      return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
-    }), function(data, key){
-      return {key:key, size:_.size(_.countBy(data, function(data){
-        if(data.uid)
-          return data.uid;
-        else
-          return data.aid;
-      }))}
-    });
+    var us_condition = SessionAmplify.get('us-condition');
+    if(us_condition){
+      us_condition.date = {$gt:new Date(tdy.getFullYear(), tdy.getMonth(), 0, 0, 0, 0, 0)};
+      return _.map(_.groupBy(Stats.find(us_condition, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
+      }), function(data, key){
+        return {key:key, size:_.size(_.countBy(data, function(data){
+          if(data.uid)
+            return data.uid;
+          else
+            return data.aid;
+        }))}
+      });
+    }
+    else
+      return _.map(_.groupBy(Stats.find({date: {$gt:new Date(
+        tdy.getFullYear(), tdy.getMonth(), 0, 0, 0, 0, 0
+        )}}, {fields:{date:1, aid:1, uid:1}}).fetch(), function(data){
+        return new Date(data.date.getFullYear(), data.date.getMonth(), data.date.getDate(), 0, 0, 0, 0).getDate();
+      }), function(data, key){
+        return {key:key, size:_.size(_.countBy(data, function(data){
+          if(data.uid)
+            return data.uid;
+          else
+            return data.aid;
+        }))}
+      });
   }
 });
 
