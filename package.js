@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.add_files(['lib/subscribe.js', 'router.js', 'injection.js', 'client/views/userStats.html', 'client/userStats.js', 'client/stylesheets/stats.css', 'client/stylesheets/s2.min.css'], ['client']);
+  api.add_files(['router.js', 'injection.js', 'client/views/userStats.html', 'client/userStats.js', 'client/stylesheets/stats.css', 'client/stylesheets/s2.min.css'], ['client']);
   api.add_files(['collections/collections.js'], ['client', 'server'])
   api.add_files(['server/methods.js', 'server/publish.js'], 'server');
   api.use([
