@@ -3,7 +3,7 @@
   "description": "Built in user stats at /users-stats route using iron-router.",
   "homepage": "https://github.com/donflopez/meteor-users-stats",
   "author": "Francisco López<donflopez@gmail.com> (http://about.me/donflopez)",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "git": "https://github.com/donflopez/meteor-users-stats.git",
   "packages": {
     "iron-router": {},
